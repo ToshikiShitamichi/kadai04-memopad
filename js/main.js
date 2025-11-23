@@ -99,8 +99,8 @@ class Monster {
     constructor(no, name, hp, atk, def, exp) {
         this.no = no
         this.name = name
-        this.src = "/img/monster/pipo-enemy" + no + ".png"
-        this.bgsrc = "../img/background/pipo-battlebg" + no + ".jpg"
+        this.src = "./img/monster/pipo-enemy" + no + ".png"
+        this.bgsrc = "./img/background/pipo-battlebg" + no + ".jpg"
         this.hp = hp
         this.atk = atk
         this.def = def
