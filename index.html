@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>したみちRPG</title>
+    <link rel="stylesheet" href="./css/style.css">
+</head>
+
+<body>
+    <div class="start">
+        <h1>したみちRPG</h1>
+        <p>モンスターと戦いレベルを上げ、魔王を倒そう！</p>
+        <p>勝利すると経験値獲得！レベルを上げて次のモンスターに挑もう！</p>
+        <p>負けるとステータスが減るぞ！かいふく や にげる を効果的に使おう！</p>
+        <p>ひたすらモンスターと戦うだけなのでとても単調だぞ！がんばれ！</p>
+        <div class="save-data">
+            <img id="data1-img" src="./img/white.png" alt="">
+            <img id="data2-img" src="./img/white.png" alt="">
+            <img id="data3-img" src="./img/white.png" alt="">
+        </div>
+        <div class="start-button">
+        </div>
+    </div>
+    <div class="content">
+        <div class="center">
+            <div class="player-status">
+                <p>プレイヤー</p>
+                <p id="player-lv" class="status"></p>
+                <p id="player-hp" class="status"></p>
+                <p id="player-atk" class="status"></p>
+                <p id="player-def" class="status"></p>
+            </div>
+            <div class="monster"></div>
+            <div class="monster-status">
+                <p id="monster-name"></p>
+                <p id="monster-hp" class="status"></p>
+                <p id="monster-atk" class="status"></p>
+                <p id="monster-def" class="status"></p>
+            </div>
+        </div>
+        <div class="command"></div>
+    </div>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="./js/data.js"></script>
+    <script src="./js/main.js"></script>
+</body>
+
+</html>

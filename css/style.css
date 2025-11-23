@@ -1,0 +1,152 @@
+body {
+    color: white;
+    background-color: black;
+    line-height: 0.5;
+    font-size: 20px;
+}
+
+.remove-scrolling {
+    height: 100%;
+    overflow: hidden;
+}
+
+.start {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.start-button{
+    width: 220px;
+}
+
+.start button {
+    background-color: white;
+    border-radius: 5px 5px;
+    margin: 10px;
+}
+
+.start img {
+    height: 20vh;
+    margin: 30px;
+}
+
+.save-data {
+    display: flex;
+}
+
+.content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.center {
+    display: flex;
+    justify-content: space-around;
+    height: 60vh;
+    width: 90vw;
+}
+
+.player-status,
+.monster-status {
+    width: 20vw;
+    background-color: black;
+    border: 1px solid white;
+    border-radius: 5px 5px;
+    margin: 10px;
+    padding: 10px;
+}
+
+.monster {
+    width: 60vw;
+    text-align: center;
+}
+
+.monster img {
+    height: 100%;
+}
+
+.command {
+    width: 60vw;
+    height: 30vh;
+    background-color: black;
+    border: 1px solid white;
+    border-radius: 5px 5px;
+    margin: 10px;
+    padding: 10px;
+}
+
+button {
+    background-color: black;
+    border: none;
+}
+
+button:focus {
+    color: white;
+    outline: none;
+}
+
+.status {
+    padding-left: 15px;
+}
+
+
+
+
+
+/* アニメーション関係 */
+/* モンスターの攻撃 */
+.monster-attack {
+    animation-name: attack;
+    animation-duration: 0.5s;
+}
+
+@keyframes attack {
+    50% {
+        transform: scale(1.2);
+    }
+}
+
+/* プレイヤーの攻撃 */
+.monster-damage {
+    animation-name: damage;
+    animation-duration: 0.5s;
+}
+
+@keyframes damage {
+    25% {
+        opacity: 0;
+    }
+
+    50% {
+        opacity: 1;
+    }
+
+    75% {
+        opacity: 0
+    }
+}
+
+.monster-death {
+    animation-name: death;
+    animation-duration: 0.5s;
+}
+
+@keyframes death {
+    0% {
+        opacity: 1.0;
+    }
+
+    100% {
+        opacity: 0.0
+    }
+}
+
+.player-death {
+    background-color: rgba(255, 100, 100, 0.5);
+    background-blend-mode: lighten;
+    background-attachment: fixed;
+}
