@@ -118,8 +118,8 @@ class Monster {
     }
     damage(atk) {
         let dmg = Math.floor((atk * (Math.random() * (1.25 - 0.95) + 0.95)) - this.def)
-        if (dmg < 0) {
-            return 0
+        if (dmg < Math.floor(atk*0.05)) {
+            return Math.floor(atk*0.05)
         } else {
             return dmg
         }
@@ -343,7 +343,7 @@ $(document).on("click", "#attack", function () {
 //かいふくコマンド
 $(document).on("click", "#heal", function () {
     $(".command").html('<p>プレイヤーの回復！</p>');
-    let heal = Math.floor(levelTable[player.lv - 1].hp * (Math.random() * (1 - 0.8) + 0.8))
+    let heal = Math.floor(levelTable[player.lv - 1].hp * (Math.random() * (0.5 - 0.3) + 0.3))
     if (player.hp + heal > levelTable[player.lv - 1].hp) {
         heal = levelTable[player.lv - 1].hp - player.hp
     } else if (heal < 10) {
