@@ -1,3 +1,4 @@
+//グローバル変数定義
 let save_data
 let player
 let round
@@ -10,17 +11,22 @@ data3 = null
 pm_num = null
 
 //画像設定
+// ローカルストレージがある場合冒険の書の色を変更
+// 冒険の書１
 if (localStorage.getItem("data1")) {
     $("#data1-img").attr("src", "./img/red.png");
     data1 = JSON.parse(localStorage.getItem("data1"))
 }
+// 冒険の書選択時
 $("#data1-img").on("click", function () {
     if (data1) {
+        // progressで進捗バー表示
         $(".start-button").html('<p>冒険の書１</p><p>プレイヤー    Lv.' + data1.lv + '</p><p><progress value="' + data1.round + '" max="10"></progress></p><button id="data1s" class="start-button-go">スタート</button><button id="data1d" class="clear-button">削除する</button>');
     } else {
         $(".start-button").html('<p>冒険の書１</p><p>新しく冒険をはじめます</p><div class="start-button"><button id="data1" class="start-button-go">スタート</button></div>');
     }
 });
+// 冒険の書２
 if (localStorage.getItem("data2")) {
     $("#data2-img").attr("src", "./img/blue.png");
     data2 = JSON.parse(localStorage.getItem("data2"))
@@ -32,6 +38,7 @@ $("#data2-img").on("click", function () {
         $(".start-button").html('<p>冒険の書２</p><p>新しく冒険をはじめます</p><div class="start-button"><button id="data2" class="start-button-go">スタート</button></div>');
     }
 });
+// 冒険の書３
 if (localStorage.getItem("data3")) {
     $("#data3-img").attr("src", "./img/green.png");
     data3 = JSON.parse(localStorage.getItem("data3"))
@@ -49,7 +56,6 @@ $("body").addClass("remove-scrolling");
 $(".content").hide();
 $(document).on("click", ".start-button-go", function () {
     save_data = $(this).attr("id").slice(0, 5);
-    console.log(save_data)
     $(".start").fadeOut(1000);
     $(".content").delay(1000).fadeIn(500);
     player_set()
@@ -63,7 +69,6 @@ $(document).on("click", ".start-button-go", function () {
 //冒険の書削除
 $(document).on("click", ".clear-button", function () {
     save_data = $(this).attr("id").slice(0, 5);
-    console.log(save_data)
     localStorage.removeItem(save_data)
     location.reload()
 })
@@ -71,6 +76,7 @@ $(document).on("click", ".clear-button", function () {
 //プレイヤーオブジェクト
 function player_set() {
     if (localStorage.getItem(save_data)) {
+        // ローカルストレージにデータがある場合、レベルからステータスを取得
         const load_data = JSON.parse(localStorage.getItem(save_data))
         player = {
             lv: load_data.lv,
@@ -82,6 +88,7 @@ function player_set() {
         }
         round = load_data.round
     } else {
+        // 初期ステータス
         player = {
             lv: 1,
             hp: 25,
@@ -106,6 +113,7 @@ class Monster {
         this.def = def
         this.exp = exp
     }
+    // モンスター→プレイヤーへの攻撃メソッド
     attack(def) {
         let dmg = Math.floor((this.atk * (Math.random() * (1.25 - 0.95) + 0.95)) - def)
         if (dmg < 0) {
@@ -116,6 +124,7 @@ class Monster {
             return dmg
         }
     }
+    // プレイヤー→モンスターへの攻撃メソッド
     damage(atk) {
         let dmg = Math.floor((atk * (Math.random() * (1.25 - 0.95) + 0.95)) - this.def)
         if (dmg < Math.floor(atk*0.05)) {
@@ -133,6 +142,7 @@ function battle() {
     $("#player-atk").text("ATK:" + player.atk);
     $("#player-def").text("DEF:" + player.def);
 
+    // ラウンドが３以上であれば出現モンスターの下限を変更
     let round_min = 0
     if (round - 3 > 0) {
         round_min = round - 3
@@ -140,6 +150,7 @@ function battle() {
 
     let m_num = Math.floor(Math.random() * (round - round_min) + round_min)
     while (true) {
+        // 逃げる前と同じモンスターの場合再抽選
         if (pm_num == m_num) {
             m_num = Math.floor(Math.random() * (round - round_min) + round_min)
         } else {
@@ -147,6 +158,7 @@ function battle() {
         }
     }
     pm_num = m_num
+    // 出現モンスターのステータス取得
     current_monster = new Monster(
         monsterList[m_num][0], monsterList[m_num][1], monsterList[m_num][2], monsterList[m_num][3], monsterList[m_num][4], monsterList[m_num][5]
     )
@@ -161,17 +173,21 @@ function battle() {
     $(".command").html(
         '<p>' + current_monster.name + 'があらわれた</p><p><a id="attack"><button>⊳</button>たたかう</a></p><p><a id="heal"><button>⊳</button>かいふく</a></p><p><a id="escape"><button>⊳</button>にげる</a></p>'
     );
+    // たたかうボタンに自動フォーカス
     $("#attack button").focus();
 }
 
 //経験値処理
 function plus_exp() {
+    // ２以上レベル上昇時に備え無限ループ
     while (true) {
         if (player.exp >= levelTable[player.lv - 1].nextExp) {
             $(".command").html('<p>プレイヤーはレベルが' + (player.lv + 1) + 'に上がった！</p>');
             player.lv += 1
+            // レベルアップしたフラグ
             lvup = true
         } else {
+            // すべてのレベル上昇後にステータス増分を表示
             if (lvup) {
                 setTimeout(() => {
                     $(".command").append('<p>HPが' + (levelTable[player.lv - 1].hp - player.hp) + 'ふえた</p>');
@@ -196,6 +212,7 @@ function plus_exp() {
 // 戦闘勝利
 function win() {
     setTimeout(() => {
+        // モンスターをフェードアウト
         $(".monster").addClass("monster-death");
     }, 500)
     setTimeout(() => {
@@ -209,6 +226,7 @@ function win() {
     setTimeout(() => {
         plus_exp()
     }, 2000)
+    // 戦闘勝利時にステータスをローカルストレージに保存
     setTimeout(() => {
         localStorage.setItem(save_data, JSON.stringify({ "lv": player.lv, "hp": player.hp, "exp": player.exp, "round": round, }));
         $(".monster").removeClass("monster-death");
@@ -220,6 +238,7 @@ function win() {
         battle()
         $(".monster").css("visibility", "inherit");
     }, 5000);
+    // ラウンド最上位モンスター撃破時にラウンドを進める
     if (current_monster.no == round) {
         round += 1
     }
@@ -227,10 +246,12 @@ function win() {
 
 // 戦闘敗北
 function lose() {
+    // だんだん画面が暗くなる処理
     $(".content").fadeOut(5000);
     setTimeout(() => {
         $(".command").html('<p>プレイヤーはやられた...</p>');
     }, 500)
+    // 敗北時にレベルを３、ラウンドを１下げる
     setTimeout(() => {
         $(".command").append('<p>ステータスが下がった...</p>');
         player.lv -= 3
@@ -260,6 +281,7 @@ function lose() {
     setTimeout(() => {
         localStorage.setItem(save_data, JSON.stringify({ "lv": player.lv, "hp": player.hp, "exp": player.exp, "round": round, }));
     }, 2500);
+    // 冒険の書選択まで戻す
     setTimeout(() => {
         location.reload()
     }, 5000);
